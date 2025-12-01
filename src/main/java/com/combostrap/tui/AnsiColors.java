@@ -22,22 +22,21 @@ public class AnsiColors {
     // https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_parameters
     // CSI code m
     public static final char M = 'm';
-    static final String ANSI_RESET = ControlSequence.ESCAPE_SEQUENCE_OPEN + 0 + M; // Reset (Each display attribute remains in effect until a following occurrence of SGR resets it)
 
     // CSI Colors
     // https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
 
     // Colors 3/4 bit
-    // https://en.wikipedia.org/wiki/ANSI_escape_code#3/4_bit
+    // https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit
     public static final int COLORS_RED_FOREGROUND_CODE = 31;
     public static final int COLORS_RED_BRIGHT_FOREGROUND = 91;
     public static final int COLORS_BLACK_FOREGROUND_CODE = 30;
     public static final int COLORS_WHITE_BACKGROUND_CODE = 47;
-    static final String COLORS_RED = ControlSequence.ESCAPE_SEQUENCE_OPEN + COLORS_RED_FOREGROUND_CODE + M; // Red
-    static final String COLORS_RED_BRIGHT = ControlSequence.ESCAPE_SEQUENCE_OPEN + COLORS_RED_BRIGHT_FOREGROUND + M; // Bright Red
-    static final String COLORS_BLACK = ControlSequence.ESCAPE_SEQUENCE_OPEN + COLORS_BLACK_FOREGROUND_CODE + M; // Black
-    static final String COLORS_BLACK_ON_WHITE = ControlSequence.ESCAPE_SEQUENCE_OPEN + COLORS_BLACK_FOREGROUND_CODE + ';' + COLORS_WHITE_BACKGROUND_CODE + M;
-    static final String COLORS_RESET = ControlSequence.ESCAPE_SEQUENCE_OPEN + 39 + ';' + 49 + M; // Reset colors attributes
+    static final String COLORS_RED = VT100.CSI + COLORS_RED_FOREGROUND_CODE + M; // Red
+    static final String COLORS_RED_BRIGHT = VT100.CSI + COLORS_RED_BRIGHT_FOREGROUND + M; // Bright Red
+    static final String COLORS_BLACK = VT100.CSI + COLORS_BLACK_FOREGROUND_CODE + M; // Black
+    static final String COLORS_BLACK_ON_WHITE = VT100.CSI + COLORS_BLACK_FOREGROUND_CODE + ';' + COLORS_WHITE_BACKGROUND_CODE + M;
+    static final String COLORS_RESET = VT100.CSI + 39 + ';' + 49 + M; // Reset colors attributes
 
 
     /**
@@ -50,7 +49,7 @@ public class AnsiColors {
             if (i % 10 == 0) {
                 System.out.println();
             }
-            System.out.printf(ControlSequence.ESCAPE_SEQUENCE_OPEN + "38;5;%s" + AnsiColors.M + " %d " + AnsiColors.ANSI_RESET, i, i);
+            System.out.printf(VT100.CSI + "38;5;%s" + AnsiColors.M + " %d " + VT100.RESET, i, i);
         }
     }
 
@@ -63,7 +62,7 @@ public class AnsiColors {
      * @return an ascii control sequence that colors the string with the provided color code
      */
     String colorize(String string, String color_sequence) {
-        return ControlSequence.ESCAPE_SEQUENCE_OPEN + color_sequence + M + string + ANSI_RESET;
+        return VT100.CSI + color_sequence + M + string + VT100.RESET;
     }
 
 

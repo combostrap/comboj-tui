@@ -6,7 +6,10 @@ public class ProgressIndicatorTest {
 
     @Test
     void basic() {
-        // Nothing to see in the IDE terminal
+        // The intellij IDE terminal does not support cursor  move
+        // Nothing to see/test then
         // See VT100Test
+        // ProgressIndicator.printProgressNumber();
     }
+
 }

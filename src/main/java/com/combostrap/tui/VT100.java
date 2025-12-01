@@ -9,62 +9,91 @@ package com.combostrap.tui;
  * These escape codes are still widely used in modern terminal emulators.
  * <p>
  * Usage example:
+ * <pre>{@code
  * System.out.print(VT100.CLEAR_SCREEN + VT100.CURSOR_HOME);
  * System.out.println(VT100.RED + "Error!" + VT100.RESET);
+ * }</pre>
+ * <p>
+ * Ref and info on sequence can be seen at <a href="https://en.wikipedia.org/wiki/ANSI_escape_code#Fe_Escape_sequences">wikipedia</a>
  */
 public class VT100 {
+
+    /**
+     * Escape character
+     * written as \e, octal \033 or Unicode \u001B, \x1b
+     */
+    public static final String ESC = "\u001B";
+
+    /**
+     * Starts most of the useful sequences
+     * The name CSI comes from <a href="https://en.wikipedia.org/wiki/ANSI_escape_code#Fe_Escape_sequences">wikipedia</a>
+     * Sequences are explaind <a href="https://en.wikipedia.org/wiki/ANSI_escape_code#Control_Sequence_Introducer_commands">here</a>
+     */
+    static final String CSI = ESC + '['; // Most useful,
 
     // ========== CURSOR CONTROL ==========
 
     /**
      * Move cursor to home position (0, 0)
      */
-    public static final String CURSOR_HOME = "\u001B[H";
+    public static final String CURSOR_HOME = CSI + "H";
 
     /**
      * Move cursor to specified position. Use with format: String.format(CURSOR_POS, row, col)
      */
-    public static final String CURSOR_POS = "\u001B[%d;%dH";
+    public static final String CURSOR_POS = CSI + "%d;%dH";
 
     /**
      * Move cursor up by n lines. Use with format: String.format(CURSOR_UP, n)
      */
-    public static final String CURSOR_UP = "\u001B[%dA";
+    public static final String CURSOR_UP = CSI + "%dA";
+
+    /**
+     * Moves cursor to beginning of the line n (default 1) lines down.
+     * Use with format: String.format(CURSOR_NEXT_LINE, n)
+     */
+    public static final String CURSOR_NEXT_LINE = CSI + "%dE";
+
+    /**
+     * Moves cursor to beginning of the line n (default 1) lines up
+     * Use with format: String.format(CURSOR_PREVIOUS_LINE, n)
+     */
+    public static final String CURSOR_PREVIOUS_LINE = CSI + "%dF";
 
     /**
      * Move cursor down by n lines. Use with format: String.format(CURSOR_DOWN, n)
      */
-    public static final String CURSOR_DOWN = "\u001B[%dB";
+    public static final String CURSOR_DOWN = CSI + "%dB";
 
     /**
      * Move cursor forward (right) by n columns. Use with format: String.format(CURSOR_FORWARD, n)
      */
-    public static final String CURSOR_FORWARD = "\u001B[%dC";
+    public static final String CURSOR_FORWARD = CSI + "%dC";
 
     /**
      * Move cursor backward (left) by n columns. Use with format: String.format(CURSOR_BACKWARD, n)
      */
-    public static final String CURSOR_BACKWARD = "\u001B[%dD";
+    public static final String CURSOR_BACKWARD = CSI + "%dD";
 
     /**
      * Save current cursor position
      */
-    public static final String CURSOR_SAVE = "\u001B[s";
+    public static final String CURSOR_SAVE = CSI + "s";
 
     /**
      * Restore saved cursor position
      */
-    public static final String CURSOR_RESTORE = "\u001B[u";
+    public static final String CURSOR_RESTORE = CSI + "u";
 
     /**
      * Hide cursor (make invisible)
      */
-    public static final String CURSOR_HIDE = "\u001B[?25l";
+    public static final String CURSOR_HIDE = CSI + "?25l";
 
     /**
      * Show cursor (make visible)
      */
-    public static final String CURSOR_SHOW = "\u001B[?25h";
+    public static final String CURSOR_SHOW = CSI + "?25h";
 
 
     // ========== SCREEN CONTROL ==========
@@ -72,32 +101,33 @@ public class VT100 {
     /**
      * Clear entire screen and move cursor to home
      */
-    public static final String CLEAR_SCREEN = "\u001B[2J";
+    public static final String CLEAR_SCREEN = CSI + "2J";
 
     /**
      * Clear from cursor to end of screen
      */
-    public static final String CLEAR_TO_END = "\u001B[0J";
+    public static final String CLEAR_TO_END = CSI + "0J";
 
     /**
      * Clear from cursor to beginning of screen
      */
-    public static final String CLEAR_TO_BEGIN = "\u001B[1J";
+    public static final String CLEAR_TO_BEGIN = CSI + "1J";
 
     /**
      * Clear entire line
      */
-    public static final String CLEAR_LINE = "\u001B[2K";
+    public static final String CLEAR_LINE = CSI + "2K";
+
 
     /**
      * Clear from cursor to end of line
      */
-    public static final String CLEAR_LINE_END = "\u001B[0K";
+    public static final String CLEAR_LINE_END = CSI + "0K";
 
     /**
      * Clear from cursor to beginning of line
      */
-    public static final String CLEAR_LINE_BEGIN = "\u001B[1K";
+    public static final String CLEAR_LINE_BEGIN = CSI + "1K";
 
 
     // ========== TEXT FORMATTING ==========
@@ -105,47 +135,47 @@ public class VT100 {
     /**
      * Reset all text attributes to default
      */
-    public static final String RESET = "\u001B[0m";
+    public static final String RESET = CSI + "0m";
 
     /**
      * Enable bold/bright text
      */
-    public static final String BOLD = "\u001B[1m";
+    public static final String BOLD = CSI + "1m";
 
     /**
      * Enable dim/faint text (not widely supported)
      */
-    public static final String DIM = "\u001B[2m";
+    public static final String DIM = CSI + "2m";
 
     /**
      * Enable italic text (not widely supported)
      */
-    public static final String ITALIC = "\u001B[3m";
+    public static final String ITALIC = CSI + "3m";
 
     /**
      * Enable underlined text
      */
-    public static final String UNDERLINE = "\u001B[4m";
+    public static final String UNDERLINE = CSI + "4m";
 
     /**
      * Enable blinking text (not widely supported)
      */
-    public static final String BLINK = "\u001B[5m";
+    public static final String BLINK = CSI + "5m";
 
     /**
      * Enable reverse video (swap foreground/background colors)
      */
-    public static final String REVERSE = "\u001B[7m";
+    public static final String REVERSE = CSI + "7m";
 
     /**
      * Enable hidden/invisible text
      */
-    public static final String HIDDEN = "\u001B[8m";
+    public static final String HIDDEN = CSI + "8m";
 
     /**
      * Enable strikethrough text (not in original VT100)
      */
-    public static final String STRIKETHROUGH = "\u001B[9m";
+    public static final String STRIKETHROUGH = CSI + "9m";
 
 
     // ========== FOREGROUND COLORS (TEXT) ==========
@@ -153,47 +183,47 @@ public class VT100 {
     /**
      * Set text color to black
      */
-    public static final String BLACK = "\u001B[30m";
+    public static final String BLACK = CSI + "30m";
 
     /**
      * Set text color to red
      */
-    public static final String RED = "\u001B[31m";
+    public static final String RED = CSI + "31m";
 
     /**
      * Set text color to green
      */
-    public static final String GREEN = "\u001B[32m";
+    public static final String GREEN = CSI + "32m";
 
     /**
      * Set text color to yellow
      */
-    public static final String YELLOW = "\u001B[33m";
+    public static final String YELLOW = CSI + "33m";
 
     /**
      * Set text color to blue
      */
-    public static final String BLUE = "\u001B[34m";
+    public static final String BLUE = CSI + "34m";
 
     /**
      * Set text color to magenta
      */
-    public static final String MAGENTA = "\u001B[35m";
+    public static final String MAGENTA = CSI + "35m";
 
     /**
      * Set text color to cyan
      */
-    public static final String CYAN = "\u001B[36m";
+    public static final String CYAN = CSI + "36m";
 
     /**
      * Set text color to white
      */
-    public static final String WHITE = "\u001B[37m";
+    public static final String WHITE = CSI + "37m";
 
     /**
      * Set text color to default
      */
-    public static final String DEFAULT = "\u001B[39m";
+    public static final String DEFAULT = CSI + "39m";
 
 
     // ========== BACKGROUND COLORS ==========
@@ -201,47 +231,47 @@ public class VT100 {
     /**
      * Set background color to black
      */
-    public static final String BG_BLACK = "\u001B[40m";
+    public static final String BG_BLACK = CSI + "40m";
 
     /**
      * Set background color to red
      */
-    public static final String BG_RED = "\u001B[41m";
+    public static final String BG_RED = CSI + "41m";
 
     /**
      * Set background color to green
      */
-    public static final String BG_GREEN = "\u001B[42m";
+    public static final String BG_GREEN = CSI + "42m";
 
     /**
      * Set background color to yellow
      */
-    public static final String BG_YELLOW = "\u001B[43m";
+    public static final String BG_YELLOW = CSI + "43m";
 
     /**
      * Set background color to blue
      */
-    public static final String BG_BLUE = "\u001B[44m";
+    public static final String BG_BLUE = CSI + "44m";
 
     /**
      * Set background color to magenta
      */
-    public static final String BG_MAGENTA = "\u001B[45m";
+    public static final String BG_MAGENTA = CSI + "45m";
 
     /**
      * Set background color to cyan
      */
-    public static final String BG_CYAN = "\u001B[46m";
+    public static final String BG_CYAN = CSI + "46m";
 
     /**
      * Set background color to white
      */
-    public static final String BG_WHITE = "\u001B[47m";
+    public static final String BG_WHITE = CSI + "47m";
 
     /**
      * Set background color to default
      */
-    public static final String BG_DEFAULT = "\u001B[49m";
+    public static final String BG_DEFAULT = CSI + "49m";
 
 
     // ========== BRIGHT/INTENSE FOREGROUND COLORS ==========
@@ -249,42 +279,42 @@ public class VT100 {
     /**
      * Set text color to bright black (gray)
      */
-    public static final String BRIGHT_BLACK = "\u001B[90m";
+    public static final String BRIGHT_BLACK = CSI + "90m";
 
     /**
      * Set text color to bright red
      */
-    public static final String BRIGHT_RED = "\u001B[91m";
+    public static final String BRIGHT_RED = CSI + "91m";
 
     /**
      * Set text color to bright green
      */
-    public static final String BRIGHT_GREEN = "\u001B[92m";
+    public static final String BRIGHT_GREEN = CSI + "92m";
 
     /**
      * Set text color to bright yellow
      */
-    public static final String BRIGHT_YELLOW = "\u001B[93m";
+    public static final String BRIGHT_YELLOW = CSI + "93m";
 
     /**
      * Set text color to bright blue
      */
-    public static final String BRIGHT_BLUE = "\u001B[94m";
+    public static final String BRIGHT_BLUE = CSI + "94m";
 
     /**
      * Set text color to bright magenta
      */
-    public static final String BRIGHT_MAGENTA = "\u001B[95m";
+    public static final String BRIGHT_MAGENTA = CSI + "95m";
 
     /**
      * Set text color to bright cyan
      */
-    public static final String BRIGHT_CYAN = "\u001B[96m";
+    public static final String BRIGHT_CYAN = CSI + "96m";
 
     /**
      * Set text color to bright white
      */
-    public static final String BRIGHT_WHITE = "\u001B[97m";
+    public static final String BRIGHT_WHITE = CSI + "97m";
 
 
     // ========== BRIGHT/INTENSE BACKGROUND COLORS ==========
@@ -292,42 +322,42 @@ public class VT100 {
     /**
      * Set background color to bright black (gray)
      */
-    public static final String BG_BRIGHT_BLACK = "\u001B[100m";
+    public static final String BG_BRIGHT_BLACK = CSI + "100m";
 
     /**
      * Set background color to bright red
      */
-    public static final String BG_BRIGHT_RED = "\u001B[101m";
+    public static final String BG_BRIGHT_RED = CSI + "101m";
 
     /**
      * Set background color to bright green
      */
-    public static final String BG_BRIGHT_GREEN = "\u001B[102m";
+    public static final String BG_BRIGHT_GREEN = CSI + "102m";
 
     /**
      * Set background color to bright yellow
      */
-    public static final String BG_BRIGHT_YELLOW = "\u001B[103m";
+    public static final String BG_BRIGHT_YELLOW = CSI + "103m";
 
     /**
      * Set background color to bright blue
      */
-    public static final String BG_BRIGHT_BLUE = "\u001B[104m";
+    public static final String BG_BRIGHT_BLUE = CSI + "104m";
 
     /**
      * Set background color to bright magenta
      */
-    public static final String BG_BRIGHT_MAGENTA = "\u001B[105m";
+    public static final String BG_BRIGHT_MAGENTA = CSI + "105m";
 
     /**
      * Set background color to bright cyan
      */
-    public static final String BG_BRIGHT_CYAN = "\u001B[106m";
+    public static final String BG_BRIGHT_CYAN = CSI + "106m";
 
     /**
      * Set background color to bright white
      */
-    public static final String BG_BRIGHT_WHITE = "\u001B[107m";
+    public static final String BG_BRIGHT_WHITE = CSI + "107m";
 
 
     // ========== SCROLLING ==========
@@ -369,11 +399,6 @@ public class VT100 {
      * Carriage return - move cursor to beginning of line
      */
     public static final String CARRIAGE_RETURN = "\r";
-
-    /**
-     * Escape character
-     */
-    public static final String ESC = "\u001B";
 
 
     // ========== UTILITY METHODS ==========

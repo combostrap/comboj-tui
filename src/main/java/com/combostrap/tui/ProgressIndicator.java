@@ -14,8 +14,8 @@ public class ProgressIndicator {
 
         System.out.println("Loading...");
         IntStream.range(0, 100).forEach(i -> {
-                    sleep100ms();
-                    System.out.printf(VT100.CLEAR_LINE + " " + i + "%");
+                    sleep10ms();
+                    System.out.printf(VT100.CLEAR_LINE + " %s%%", i);
                     System.out.flush();
                 }
         );
@@ -41,9 +41,9 @@ public class ProgressIndicator {
     /**
      * Just a wrapper
      */
-    private static void sleep100ms() {
+    private static void sleep10ms() {
         try {
-            Thread.sleep(100);
+            Thread.sleep(10);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
